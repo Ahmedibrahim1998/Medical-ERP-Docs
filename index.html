@@ -1,0 +1,851 @@
+<!DOCTYPE html>
+<html lang="en" dir="ltr">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>Medical ERP — Documentation</title>
+
+<style>
+:root {
+  --bg: #ffffff; --fg: #1e293b; --muted: #64748b; --line: #e2e8f0;
+  --brand: #0369a1; --brand-soft: #f0f9ff; --code-bg: #f8fafc;
+  --warn-bg: #fffbeb; --warn-line: #fcd34d; --warn-fg: #92400e;
+  --ok-bg: #ecfdf5; --ok-line: #6ee7b7; --ok-fg: #065f46;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --bg: #0f172a; --fg: #e2e8f0; --muted: #94a3b8; --line: #1e293b;
+    --brand: #38bdf8; --brand-soft: #082f49; --code-bg: #1e293b;
+    --warn-bg: #422006; --warn-line: #a16207; --warn-fg: #fde68a;
+    --ok-bg: #022c22; --ok-line: #047857; --ok-fg: #6ee7b7;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0; background: var(--bg); color: var(--fg);
+  font: 15px/1.7 -apple-system, "Segoe UI", Roboto, "Helvetica Neue", sans-serif;
+}
+.wrap { display: flex; min-height: 100vh; }
+
+nav {
+  width: 260px; flex-shrink: 0; border-right: 1px solid var(--line);
+  padding: 24px 16px; position: sticky; top: 0; height: 100vh; overflow-y: auto;
+}
+nav h1 { font-size: 16px; margin: 0 0 4px; }
+nav .ver { font-size: 12px; color: var(--muted); margin-bottom: 20px; }
+nav a { display: block; padding: 5px 10px; color: var(--muted); text-decoration: none; border-radius: 6px; font-size: 14px; }
+nav a:hover { background: var(--brand-soft); color: var(--brand); }
+nav .grp { font-size: 11px; text-transform: uppercase; letter-spacing: .06em; color: var(--muted); margin: 16px 0 6px 10px; font-weight: 600; }
+
+main { flex: 1; padding: 32px 40px 80px; max-width: 860px; }
+h2 { font-size: 24px; margin: 40px 0 12px; padding-bottom: 8px; border-bottom: 2px solid var(--line); }
+h2:first-child { margin-top: 0; }
+h3 { font-size: 17px; margin: 26px 0 8px; }
+p, li { color: var(--fg); }
+code { background: var(--code-bg); padding: 2px 6px; border-radius: 4px; font-size: 13px; font-family: ui-monospace, Menlo, Consolas, monospace; }
+pre { background: var(--code-bg); padding: 14px 16px; border-radius: 8px; overflow-x: auto; border: 1px solid var(--line); }
+pre code { background: none; padding: 0; }
+table { width: 100%; border-collapse: collapse; margin: 14px 0; font-size: 14px; }
+th, td { border: 1px solid var(--line); padding: 8px 10px; text-align: left; vertical-align: top; }
+th { background: var(--code-bg); font-weight: 600; }
+.note { border-left: 4px solid var(--warn-line); background: var(--warn-bg); color: var(--warn-fg); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+.ok { border-left: 4px solid var(--ok-line); background: var(--ok-bg); color: var(--ok-fg); padding: 12px 16px; border-radius: 0 8px 8px 0; margin: 16px 0; }
+.lead { font-size: 17px; color: var(--muted); }
+ul { padding-left: 22px; }
+hr { border: 0; border-top: 1px solid var(--line); margin: 36px 0; }
+@media (max-width: 820px) {
+  .wrap { flex-direction: column; }
+  nav { width: 100%; height: auto; position: static; border-right: 0; border-bottom: 1px solid var(--line); }
+  main { padding: 24px 20px 60px; }
+}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<nav>
+  <h1>Medical ERP</h1>
+  <div class="ver">Version 1.0 · Laravel 12</div>
+
+  <div class="grp">Getting started</div>
+  <a href="#intro">Introduction</a>
+  <a href="#requirements">Server requirements</a>
+  <a href="#install">Installation</a>
+  <a href="#upgrade">Updating</a>
+
+  <div class="grp">First-time setup</div>
+  <a href="#branches">Branches</a>
+  <a href="#users">Users</a>
+  <a href="#roles">Roles &amp; permissions</a>
+  <a href="#doctors">Doctors &amp; clinics</a>
+  <a href="#services">Services &amp; pricing</a>
+  <a href="#pricelists">Price lists</a>
+  <a href="#accounts">Financial accounts</a>
+  <a href="#settings">Settings</a>
+  <a href="#translations">Translation manager</a>
+
+  <div class="grp">Daily use</div>
+  <a href="#reception">Reception &amp; queue</a>
+  <a href="#clinic">The doctor's console</a>
+  <a href="#prescriptions">Prescription log</a>
+  <a href="#billing">Billing &amp; cash</a>
+  <a href="#expenses">Expenses</a>
+  <a href="#pharmacy">Pharmacy &amp; stock</a>
+  <a href="#lab">Laboratory &amp; radiology</a>
+  <a href="#insurance">Insurance claims</a>
+  <a href="#staff">Employees, attendance &amp; leave</a>
+  <a href="#hr">Payroll &amp; commissions</a>
+  <a href="#reports">Reports</a>
+  <a href="#templates">Consultation templates</a>
+  <a href="#dictation">Voice dictation</a>
+  <a href="#ticket">Patient queue link</a>
+  <a href="#whatsapp">WhatsApp messages</a>
+  <a href="#audit">Who changed what</a>
+  <a href="#backup">Backups</a>
+  <a href="#cron">Scheduled tasks</a>
+
+  <div class="grp">Accounting &amp; tax</div>
+  <a href="#accounting">Double-entry accounting</a>
+  <a href="#einvoice">E-invoicing (ZATCA / ETA)</a>
+
+  <div class="grp">Reference</div>
+  <a href="#rules">Built-in safeguards</a>
+  <a href="#numbering">Document numbering</a>
+  <a href="#display">Waiting-room display</a>
+  <a href="#troubleshooting">Troubleshooting</a>
+  <a href="#support">Support</a>
+</nav>
+
+<main>
+
+<h2 id="intro">Introduction</h2>
+<p class="lead">Medical ERP runs a clinic, polyclinic or small hospital end to end — reception, the clinical record, billing, pharmacy, laboratory, insurance and payroll — in one multi-branch system that works in Arabic and English.</p>
+
+<p>It is a standard Laravel 12 application. There is no external service to subscribe to and no licence server to phone home: you upload the files, run the installer, and the system is yours.</p>
+
+<h3>What is included</h3>
+<table>
+  <tr><th>Module</th><th>What it covers</th></tr>
+  <tr><td>Patients</td><td>Medical record numbers, demographics, allergies, medical history, insurance cards, account statement</td></tr>
+  <tr><td>Appointments &amp; queue</td><td>Doctor schedules, conflict-free booking, check-in, waiting tokens, TV display</td></tr>
+  <tr><td>Clinical</td><td>Complaint, examination, ICD-10 diagnosis, prescription, services, lab and radiology orders</td></tr>
+  <tr><td>Billing</td><td>Invoices, insurance splitting, discounts with approval, collections, refunds, cash sessions</td></tr>
+  <tr><td>Pharmacy &amp; stock</td><td>Items, batches and expiry, FEFO dispensing, purchases, stock-taking, suppliers</td></tr>
+  <tr><td>Laboratory</td><td>Orders, sample barcodes, results with sex/age-aware reference ranges, verification, printed report</td></tr>
+  <tr><td>Radiology</td><td>Scheduling, performing, reports with amendment trail, verification</td></tr>
+  <tr><td>Insurance</td><td>Claim batches, submission, insurer response, partial rejection, resubmission, collection</td></tr>
+  <tr><td>HR</td><td>Employee files, attendance, leave with balances, payroll with allowances and deductions, loans, doctor commissions</td></tr>
+  <tr><td>Finance</td><td>Cash drawers, bank accounts and e-wallets, transfers between them, expenses with an approval chain</td></tr>
+  <tr><td>Accounting</td><td>Chart of accounts, journal, trial balance, income statement, balance sheet, fiscal period closing — posting automatically from fourteen document types</td></tr>
+  <tr><td>E-invoicing</td><td>ZATCA (Saudi Arabia) and ETA (Egypt): TLV QR code, UBL 2.1 document, retry queue</td></tr>
+  <tr><td>Voice dictation</td><td>Arabic dictation into clinical fields, running entirely in the browser, with an editable correction dictionary</td></tr>
+  <tr><td>Reports</td><td>Financial, clinical, inventory and HR dashboards with date ranges</td></tr>
+  <tr><td>Setup</td><td>Branches, users, roles, doctors and clinics, services, price lists, translations, activity log, backups</td></tr>
+</table>
+
+<div class="ok">
+  Two modules are <strong>off by default</strong> and stay silent until you switch them on: <a href="#accounting">double-entry accounting</a> and <a href="#einvoice">e-invoicing</a>. That is deliberate — neither should ever be able to stop a receptionist from issuing an invoice.
+</div>
+
+<hr>
+
+<h2 id="requirements">Server requirements</h2>
+<table>
+  <tr><th>Item</th><th>Minimum</th><th>Recommended</th></tr>
+  <tr><td>PHP</td><td>8.2</td><td>8.3</td></tr>
+  <tr><td>Database</td><td>MySQL 5.7 / MariaDB 10.6</td><td>MySQL 8.0+</td></tr>
+  <tr><td>Web server</td><td>Apache with <code>mod_rewrite</code>, or Nginx</td><td>Nginx</td></tr>
+  <tr><td>Memory limit</td><td>256 MB</td><td>512 MB</td></tr>
+  <tr><td>Extensions</td><td colspan="2"><code>pdo</code>, <code>pdo_mysql</code>, <code>mbstring</code>, <code>openssl</code>, <code>tokenizer</code>, <code>json</code>, <code>curl</code>, <code>fileinfo</code>, <code>ctype</code>, <code>xml</code>, <code>zip</code>, <code>gd</code></td></tr>
+</table>
+
+<p>The installer checks every one of these on its first screen and will not let you continue until they pass, so you never discover a missing extension halfway through.</p>
+
+<hr>
+
+<h2 id="install">Installation</h2>
+
+<h3>1. Upload</h3>
+<p>Upload the contents of the package to your hosting account. Point your domain's document root at the <code>public</code> folder.</p>
+
+<div class="note">
+<strong>On shared hosting</strong> where you cannot move the document root, upload the whole folder and point the domain to <code>/public</code> through your control panel's "document root" setting. Do not move <code>index.php</code> out of <code>public</code> — everything above it is meant to stay unreachable from the web.
+</div>
+
+<h3>2. Create a database</h3>
+<p>Create an empty MySQL database and a user with full privileges on it. Use <code>utf8mb4_unicode_ci</code> as the collation so Arabic text sorts correctly.</p>
+
+<h3>3. Set folder permissions</h3>
+<pre><code>chmod -R 775 storage bootstrap/cache
+chown -R www-data:www-data storage bootstrap/cache</code></pre>
+<p>Replace <code>www-data</code> with whatever user your web server runs as.</p>
+
+<h3>4. Run the installer</h3>
+<p>Open <code>https://your-domain.com/install</code> and follow four steps:</p>
+<ol>
+  <li><strong>Requirements</strong> — PHP version, extensions, writable folders</li>
+  <li><strong>Database</strong> — the connection is tested before anything is written to <code>.env</code></li>
+  <li><strong>Build tables</strong> — migrations plus core data (permissions, roles, languages, settings, ICD-10 codes). Tick <em>Load demo data</em> if you want a populated system to explore</li>
+  <li><strong>Admin account</strong> — your name, email and password</li>
+</ol>
+
+<div class="ok">
+When the installer finishes it writes <code>storage/installed</code>. From that moment <code>/install</code> returns 404, so nobody can re-run it and wipe your data.
+</div>
+
+<div class="note">
+The installer also refuses to run migrations against a database that already contains users, even if the lock file is missing. This is deliberate: a re-upload that loses <code>storage/installed</code> must never cost you your records.
+</div>
+
+<h3>5. Remove the demo data (optional)</h3>
+<pre><code>php artisan demo:clear</code></pre>
+<p>This deletes every transactional record — patients, invoices, stock, visits, attendance, leave — while keeping your settings, roles, permissions and ICD-10 catalogue intact. Document numbering restarts from 1, and every financial account is reset to its opening balance, since the transactions behind its balance have just been removed.</p>
+
+<hr>
+
+<h2 id="upgrade">Updating to a newer version</h2>
+<ol>
+  <li>Back up your database and the <code>.env</code> file.</li>
+  <li>Replace all files <strong>except</strong> <code>.env</code>, <code>storage/</code> and any logo or uploads you added.</li>
+  <li>Run <code>php artisan migrate --force</code>.</li>
+  <li>Run <code>php artisan optimize:clear</code>.</li>
+</ol>
+
+<div class="ok">
+Text you edited in the <strong>Translation manager</strong> lives in the database, not in the language files. Replacing the files during an update never overwrites your wording.
+</div>
+
+<hr>
+
+<h2 id="branches">Branches</h2>
+<p>Every transactional record carries a branch. Users are assigned to one or more branches and switch between them from the header. A user only ever sees the data of the branch they are currently in — including through direct URLs.</p>
+
+<p>Catalogue data (services, items, suppliers, lab tests) is shared across branches by default, so you define a medicine once and every branch keeps its own stock of it.</p>
+
+<p><strong>Setup → Branches</strong> is where you add and edit them. Each branch carries its own tax number, licence number, currency, timezone and opening hours — the tax number is what gets printed on invoices and used to build the e-invoice.</p>
+
+<div class="note">
+  <strong>The last active branch cannot be deactivated or deleted.</strong> Every screen in the system filters by branch, so with none active a user would sign in to a completely empty system with no explanation. A branch that already holds patients, visits or invoices cannot be deleted either — deactivate it instead so its history survives.
+</div>
+
+<hr>
+
+<h2 id="users">Users</h2>
+<p><strong>Setup → Users</strong>. Each user needs a username, an email, at least one branch, and normally a role.</p>
+
+<ul>
+  <li><strong>Branches</strong> — a user with no branch cannot sign in at all. Give more than one and you can pick which is their default.</li>
+  <li><strong>Roles</strong> — applied across every branch the user works in. Someone who is a cashier here and a manager there is rare enough that the screen keeps one role set per person.</li>
+  <li><strong>Employee file</strong> — linking one ties attendance, leave and payroll to this account. Without it the user cannot see "my leave requests".</li>
+  <li><strong>Password</strong> — leave it blank when editing to keep the current one. Setting a password for someone else automatically flags them to change it at next sign-in, since you now know it.</li>
+</ul>
+
+<p>A branch manager only sees the users of their own branch. Only someone with <code>branches.view-all</code> sees everybody.</p>
+
+<div class="note">
+  <strong>You cannot lock yourself out.</strong> Nobody can deactivate or delete their own account, and the last active Super Admin cannot be deactivated, deleted, or stripped of the role — any of those would leave the system with no one able to open it, fixable only from the database.
+</div>
+
+<hr>
+
+<h2 id="roles">Roles &amp; permissions</h2>
+<p><strong>Settings → Roles &amp; permissions</strong> gives you a matrix of about 200 permissions grouped by module. Eleven roles ship configured:</p>
+
+<table>
+  <tr><th>Role</th><th>Intended for</th></tr>
+  <tr><td>Super Admin</td><td>The owner. Cannot be stripped of permissions — that would lock everyone out.</td></tr>
+  <tr><td>Branch Manager</td><td>Runs one branch; cannot manage roles, translations or other branches.</td></tr>
+  <tr><td>Doctor</td><td>Own patients and visits, prescriptions, lab and radiology orders, own commission.</td></tr>
+  <tr><td>Nurse</td><td>Check-in, queue, vitals, sample collection.</td></tr>
+  <tr><td>Receptionist</td><td>Patients, appointments, queue, invoices, collections. <em>Cannot open the clinical record.</em></td></tr>
+  <tr><td>Cashier</td><td>Collections, refunds, cash sessions.</td></tr>
+  <tr><td>Pharmacist</td><td>Dispensing, stock, purchases, suppliers.</td></tr>
+  <tr><td>Lab Technician</td><td>Orders, samples, results, verification.</td></tr>
+  <tr><td>Radiologist</td><td>Studies and reports.</td></tr>
+  <tr><td>Accountant</td><td>Invoices, cash, expenses, insurance claims, financial reports.</td></tr>
+  <tr><td>HR Manager</td><td>Employees, attendance, leaves, payroll, commissions.</td></tr>
+</table>
+
+<p>You can create your own roles and tick permissions module by module. A role that is assigned to users cannot be deleted until you move them elsewhere.</p>
+
+<hr>
+
+<h2 id="doctors">Doctors &amp; clinics</h2>
+<p><strong>Setup → Doctors &amp; clinics.</strong> Two tabs, and the order matters: <em>a doctor's work schedule cannot exist without a clinic</em>, so add clinics first.</p>
+
+<h3>Clinics</h3>
+<p>A clinic is the booking unit — a patient books <em>in a clinic, with a doctor, at a time</em>. Give it a room number, a colour (it identifies the clinic on the calendar and the waiting-room screen) and a default slot length.</p>
+
+<h3>Doctors</h3>
+<p>Beyond the obvious fields, three matter for money and booking:</p>
+
+<table>
+  <tr><th>Field</th><th>What it does</th></tr>
+  <tr><td>Consultation fee</td><td>Charged for a new visit.</td></tr>
+  <tr><td>Follow-up fee + window</td><td>Within the window, a returning patient is charged the follow-up fee instead.</td></tr>
+  <tr><td>Commission type &amp; value</td><td>The doctor's default share. Rules under <em>Commissions</em> override it.</td></tr>
+  <tr><td>Login account</td><td>One account per doctor — this is how the system knows which visits are "mine".</td></tr>
+</table>
+
+<h3>Work schedules</h3>
+<p>Click the schedule badge on any doctor row to open their weekly schedule underneath. Each line is one day: clinic, from, to, slot length, and an optional appointment cap.</p>
+
+<div class="note">
+  <strong>Without a schedule, no appointment slots are calculated for that doctor at all</strong> — the booking screen will simply show nothing available. The badge turns amber when a doctor has no schedule so it is visible at a glance.
+  <br><br>
+  Two schedules for the same doctor overlapping on the same day are refused: they would let the same free hour be counted twice and two patients be booked into it. Back-to-back shifts (one ending at 13:00, the next starting at 13:00) are fine.
+</div>
+
+<hr>
+
+<h2 id="services">Services &amp; pricing</h2>
+<p><strong>Setup → Services.</strong> A service is anything you invoice for that isn't a medicine, a lab test or a scan. Nothing can be billed until it exists here.</p>
+
+<p>Services live inside categories, so start on the <strong>Categories</strong> tab — a service cannot be created without one. Both are shared across branches: define a service once and every branch can sell it.</p>
+
+<table>
+  <tr><th>Field</th><th>Why it matters</th></tr>
+  <tr><td>Price</td><td>The cash price, and the fallback whenever no price list applies.</td></tr>
+  <tr><td>Cost</td><td>Feeds the profit report. Never shown to the patient.</td></tr>
+  <tr><td>Floor price</td><td>The lowest price allowed after a discount; below it the invoice needs a manager's approval.</td></tr>
+  <tr><td>Commission</td><td>Percentage or fixed amount for the doctor who performed it.</td></tr>
+  <tr><td>Requires a doctor</td><td>Untick for things like a dressing change that any nurse performs.</td></tr>
+</table>
+
+<div class="note">
+  A floor price <em>above</em> the price itself is refused — it would make every single invoice fall below the floor and need manager approval, stopping the front desk. A percentage commission above 100% is refused for the same kind of reason.
+  <br><br>
+  A service that has already been used on a visit or an invoice cannot be deleted, only deactivated, so old reports keep their names.
+</div>
+
+<hr>
+
+<h2 id="pricelists">Price lists</h2>
+<p><strong>Setup → Price lists.</strong> A price list is a different price for the same service depending on who is paying: an insurer, a corporate contract, or staff.</p>
+
+<div class="note">
+  <strong>With no price list, every insured patient is charged the cash price</strong> — which is always the highest one. If you work with insurers, this screen is not optional.
+</div>
+
+<p>Create the list, choose its type, and for an insurance list pick the company — an insurance list with no company never reaches a patient, because the invoice finds the list <em>through</em> the patient's company. Then open <strong>Prices</strong> and add services one by one, or press <strong>Fill with all services</strong> to copy the whole catalogue at cash price and adjust only what you actually negotiated. Filling never overwrites a price you already agreed.</p>
+
+<p>Each line carries three separate things:</p>
+
+<ul>
+  <li><strong>Contracted price</strong> — what the service costs under this contract.</li>
+  <li><strong>Patient copay %</strong> — the share the patient pays at the desk.</li>
+  <li><strong>Covered / not covered</strong> — an uncovered service with a price is not a contradiction: the price is what the patient then pays in full.</li>
+</ul>
+
+<p>Services not listed fall back to their cash price. A list used on invoices, or linked to an insurance company, cannot be deleted — deactivate it.</p>
+
+<hr>
+
+<h2 id="accounts">Financial accounts</h2>
+<p><strong>Finance → Financial accounts.</strong> Every payment, refund, expense, payslip, doctor commission, supplier payment and cash drawer lands in one of these: a cash drawer, a bank account, or an e-wallet.</p>
+
+<p>One account is the <strong>default</strong> — anything recorded without an explicit account goes there, which is why the default cannot be deactivated.</p>
+
+<p>The opening balance is entered <strong>once, at creation</strong>. After that the balance moves only with real transactions; editing it later would break reconciliation retroactively, so the field disappears on edit.</p>
+
+<h3>Transfers</h3>
+<p>Depositing the day's takings into the bank, or drawing cash out of it, is a transfer. Fees are deducted from the sending account and are <em>not</em> added to the receiving one — the bank keeps them; adding them to both would invent money that never reached anybody.</p>
+
+<div class="note">
+  A cash drawer cannot go negative, and the check includes the fees. A negative cash drawer does not exist in reality, so it is refused rather than recorded.
+</div>
+
+<hr>
+
+<h2 id="settings">Settings</h2>
+<p><strong>Settings</strong> holds ten groups — general, invoicing, appointments, queue, pharmacy, laboratory, payroll, WhatsApp, SMS and backup.</p>
+
+<div class="note">
+Settings are saved <strong>per branch</strong> and override the global defaults. One branch can allow a 30&nbsp;% discount without approval while another stays at 10&nbsp;%.
+</div>
+
+<p>The settings worth reviewing on day one:</p>
+<ul>
+  <li><code>general.currency_symbol</code> and <code>general.decimal_places</code></li>
+  <li><code>invoice.max_discount_percent</code> — above this a manager must approve</li>
+  <li><code>invoice.print_size</code> — <code>a4</code>, <code>thermal_80</code> or <code>thermal_58</code></li>
+  <li><code>pharmacy.expiry_alert_days</code> — how early expiry warnings appear</li>
+  <li><code>payroll.working_days_per_month</code> — the divisor behind every daily rate</li>
+  <li><code>payroll.late_deduction_method</code> — set to <code>none</code> if you do not deduct for lateness</li>
+</ul>
+
+<hr>
+
+<h2 id="translations">Translation manager</h2>
+<p><strong>Settings → Translations</strong> lets you rewrite any text in the interface without touching code. Pick a language, pick a file, edit the value, save. The change is live immediately.</p>
+
+<p>Keys come from the language files, so a key added by a future update appears here automatically. Only the values you actually change are stored — text identical to the original is not saved, which keeps improved translations flowing through on updates.</p>
+
+<p>Use the <em>Untranslated only</em> filter when adding a new language to see exactly what is left.</p>
+
+<hr>
+
+<h2 id="reception">Reception &amp; queue</h2>
+<ol>
+  <li><strong>Patients → New</strong> creates the file and assigns an MRN.</li>
+  <li><strong>Appointments → New</strong> books a slot. The system refuses a slot the doctor already has, outside their schedule, or beyond their daily limit — and tells you which.</li>
+  <li>When the patient arrives, press <strong>Check in</strong>. A queue token is issued automatically.</li>
+  <li><strong>Queue</strong> shows every clinic's board. <strong>Call next</strong> announces the token on the waiting-room display.</li>
+</ol>
+
+<hr>
+
+<h2 id="clinic">The doctor's console</h2>
+<p><strong>Visits</strong> is the doctor's home screen: arrived patients as cards on top, today's visits underneath. <strong>Start consultation</strong> opens the console, which has five tabs:</p>
+
+<ul>
+  <li><strong>Examination</strong> — complaint, history, findings, plan, advice, follow-up date</li>
+  <li><strong>Diagnosis</strong> — live ICD-10 search or free text, typed as provisional / primary / secondary / final / ruled out</li>
+  <li><strong>Prescription</strong> — drug search showing the pharmacy's live stock beside each item; quantity is estimated from the frequency and duration you type, in Arabic or English</li>
+  <li><strong>Services</strong> — procedures priced from the patient's insurance price list</li>
+  <li><strong>Lab &amp; radiology</strong> — orders that inherit the patient, doctor and insurance from the visit</li>
+</ul>
+
+<p>Every tab saves as you go — there is no final "save" button to lose work to a dropped connection.</p>
+
+<div class="note">
+A visit cannot be completed without at least one diagnosis, and once completed the record locks. Corrections are made by adding a new note, never by silently editing history.
+</div>
+
+<hr>
+
+<h2 id="prescriptions">Prescription log</h2>
+<p>Prescriptions are <em>written</em> inside the consultation, alongside the examination and diagnosis. <strong>Clinical → Prescriptions</strong> is where you find them afterwards — a patient calling a month later to ask what they were given, a pharmacy checking, a doctor looking up what they prescribed last time.</p>
+
+<p>Search by prescription number, patient name, file number or phone; filter by date, doctor, or dispensing status. Open any row to see the drugs with doses, frequency, duration and how much has actually been dispensed.</p>
+
+<p><strong>Print</strong> produces the ℞ sheet with the clinic header, the patient's details, the drug table, advice, follow-up date and the doctor's signature and licence number. <strong>Send</strong> messages the patient a link to that sheet — the link, never the drug names as text, because doses abbreviated into a chat message are dangerous.</p>
+
+<div class="note">
+  A prescription is never edited or deleted here. It is a signed medical document: medicine has been dispensed against it and a paper copy may already have left the clinic. Changing it would make what is in the patient's hand differ from what is in the system.
+</div>
+
+<hr>
+
+<h2 id="billing">Billing &amp; cash</h2>
+
+<h3>Opening a cash session</h3>
+<p>Before collecting cash, open a session from <strong>Cash sessions</strong> and enter your opening float. One user has one open session; one register hosts one session. Without an open session, cash collection is refused — so every pound has a named owner and a shift.</p>
+
+<h3>Invoicing</h3>
+<p>From a completed visit press <strong>Bill this visit</strong> — its services flow into a draft. Add or remove lines, apply a discount, then <strong>Issue</strong>. Issuing assigns the final number and posts the patient's share to their account statement.</p>
+
+<p>The maths:</p>
+<pre><code>subtotal        = Σ (qty × price − line discount)
+tax_amount      = Σ line tax
+discount_amount = invoice-level discount
+total           = subtotal + tax − discount
+insurance_share = Σ covered share      ← untouched by your discount
+patient_share   = total − insurance_share
+balance_due     = patient_share − paid  ← what the patient owes</code></pre>
+
+<h3>Closing the session</h3>
+<p>Count the drawer and enter the figure. The system compares it with what it expected and records the difference as a shortage or surplus. Nothing is silently adjusted. Card and transfer payments never enter the drawer, so they are excluded from the expected cash.</p>
+
+<hr>
+
+<h2 id="expenses">Expenses</h2>
+<p><strong>Finance → Expenses.</strong> Rent, salaries paid in cash, maintenance, utilities — anything leaving the clinic that is not a supplier invoice.</p>
+
+<p>Every expense goes through three stages: <strong>recorded → approved → paid</strong>. Only the last one actually moves money.</p>
+
+<ul>
+  <li>Amounts above <code>expense.approval_limit</code> need the approval permission; below it, whoever records can approve.</li>
+  <li>Paying in <strong>cash</strong> requires an open cash session — the money comes out of a real drawer with a named owner. A bank transfer does not.</li>
+  <li>A paid expense can no longer be edited or deleted. Correct it with a new entry.</li>
+</ul>
+
+<p>Categories can be mapped to specific ledger accounts, so rent and salaries land in the right place in the income statement instead of a single lump.</p>
+
+<hr>
+
+<h2 id="pharmacy">Pharmacy &amp; stock</h2>
+
+<h3>Receiving goods</h3>
+<p><strong>Purchases → New</strong>, choose supplier and warehouse, add items with batch number, expiry, cost and any bonus quantity, then <strong>Receive goods</strong>. Only then does stock move, batches get created and the supplier balance rises.</p>
+
+<h3>Dispensing</h3>
+<p><strong>Dispensing</strong> lists prescriptions waiting. Open one and the screen shows what was prescribed, what remains, and live stock for each drug. Adjust quantities, substitute an item if needed, and dispense. Stock is deducted and a pharmacy invoice is issued in the same transaction.</p>
+
+<div class="ok">
+Dispensing follows <strong>FEFO</strong> — first expired, first out. Expired batches are excluded entirely, so a box that has passed its date can never be handed to a patient even if it is still on the shelf.
+</div>
+
+<h3>Stock-taking</h3>
+<p><strong>Stock</strong> shows quantities, batches and expiry with one-click filters for low stock, near expiry and expired. Press <strong>Adjust</strong> on any row, enter what you actually counted and pick a reason. The difference is recorded as a movement with that reason attached — never absorbed silently.</p>
+
+<hr>
+
+<h2 id="lab">Laboratory &amp; radiology</h2>
+<p>The lab worklist is ordered by urgency, not by date: STAT first, then urgent, then routine.</p>
+
+<ol>
+  <li><strong>Collect sample</strong> — this is when the turnaround clock starts, not when the doctor wrote the order</li>
+  <li><strong>Enter results</strong> — reference ranges shown beside each parameter are the ones matching this patient's sex and age</li>
+  <li><strong>Verify</strong> — a different person confirms the result</li>
+  <li><strong>Deliver</strong> and print</li>
+</ol>
+
+<div class="note">
+Nobody can verify a result they entered themselves, an unverified result cannot be delivered, and the printed report contains only verified tests. A page leaving the lab reads as final, so it must be.
+</div>
+
+<p>Critical values are flagged separately from merely high or low ones, and mark the whole order so the front desk can see at a glance that a doctor needs calling.</p>
+
+<p>Radiology follows the same shape: schedule → perform → report → verify. A final report is never silently replaced; changing it records an amendment with a written reason, because the treating doctor may already have acted on the first version.</p>
+
+<hr>
+
+<h2 id="insurance">Insurance claims</h2>
+<ol>
+  <li><strong>Build claim</strong> — pick the insurer and a period; every unclaimed insured invoice is gathered</li>
+  <li><strong>Submit</strong> — the batch locks, because the insurer now holds a copy</li>
+  <li><strong>Record insurer response</strong> — enter the approved amount per invoice; the rejected difference is calculated for you</li>
+  <li><strong>Record incoming transfer</strong> — only the net enters your account, so administrative deductions do not inflate the books</li>
+  <li><strong>Resubmit rejected</strong> — builds a fresh claim from what was cut, and marks the originals so nothing is claimed twice</li>
+</ol>
+
+<p>Resubmission works on partially cut invoices too, which is the common case — insurers usually trim a portion rather than reject the whole thing.</p>
+
+<hr>
+
+<h2 id="staff">Employees, attendance &amp; leave</h2>
+
+<h3>Employee files</h3>
+<p><strong>HR → Employees.</strong> Everything in this module hangs off the employee file — attendance, leave, payroll, end-of-service. Link each one to their login account so the two halves connect.</p>
+
+<p>Salary and bank details sit behind a separate permission (<code>employees.view-salary</code>). Whoever records daily attendance needs the employee list but has no business knowing their colleagues' pay, so for them those fields are neither shown nor saved.</p>
+
+<p>The <strong>biometric ID</strong> is the number stored on your fingerprint device — it is what ties raw punches to a person.</p>
+
+<div class="note">
+  An employee who already has attendance, leave or payslips cannot be deleted. Set their status to <em>terminated</em> or <em>resigned</em> with a date instead — end-of-service is calculated from it, and the history survives.
+</div>
+
+<h3>Attendance</h3>
+<p><strong>HR → Attendance</strong> shows one day at a time for everyone, with arrows to move between days. Four counters at the top answer the only question that matters in the morning: who is in, who is absent, who is on leave, and who has no record at all.</p>
+
+<p>Click any row to enter or correct check-in, check-out, shift and status. <strong>Mark the rest</strong> stamps everyone <em>without</em> a record — it never touches somebody who actually punched.</p>
+
+<table>
+  <tr><th>Measured</th><th>How</th></tr>
+  <tr><td>Lateness</td><td>Against the shift's start time, minus its grace minutes.</td></tr>
+  <tr><td>Early leave</td><td>Against the shift's end time, minus its own grace.</td></tr>
+  <tr><td>Overtime</td><td>Beyond the shift's threshold, after the break.</td></tr>
+</table>
+
+<div class="note">
+  <strong>With no shift selected there is no lateness and no overtime</strong> — there is nothing to measure against, and inventing a figure would produce a deduction with no basis.
+  <br><br>
+  A night shift is handled properly: clocking out at 02:00 after clocking in at 22:00 is four hours worked the next morning, not minus twenty.
+  <br><br>
+  Once a month's payroll has been paid or closed, its attendance is locked — changing it would contradict what staff already received.
+</div>
+
+<h3>Leave</h3>
+<p><strong>HR → Leave.</strong> Requests are listed with pending ones first, because the screen is opened to make a decision. The <strong>Balances</strong> tab shows entitled, used, pending and remaining days per employee per leave type.</p>
+
+<p>A request is checked against the leave type before it is accepted: overlapping requests, remaining balance, gender restrictions (maternity), maximum consecutive days, minimum service, and notice period. Notice is only enforced for <em>future</em> leave — sick leave is filed after the fact, and rejecting it for short notice would be nonsense.</p>
+
+<div class="ok">
+  <strong>Approving a leave writes it into attendance.</strong> Payroll reads the attendance table, not the leave table — so approval creates a <em>leave</em> attendance row for each day. Without that step an employee would be counted absent during their own approved leave and docked for it. Cancelling the leave removes those rows and returns the balance.
+  <br><br>
+  A day the employee actually punched is never overwritten by a leave approval: the punch is the truth.
+</div>
+
+<hr>
+
+<h2 id="hr">Payroll &amp; commissions</h2>
+
+<h3>Payroll</h3>
+<p><strong>Payroll → Open period</strong> for a month, then <strong>Run payroll</strong>. Each payslip is built from six sources: basic salary, effective allowances, approved commissions, overtime, deductions (absence, lateness, loan installments, penalties) and finally social insurance.</p>
+
+<p>Working days come from the attendance records, not from the length of the month — so Fridays and holidays are never counted as absence.</p>
+
+<p>Running the payroll again rebuilds it rather than doubling anything: loan installments are released and re-applied, so a correction costs nothing. Once paid, the period locks for good.</p>
+
+<h3>Doctor commissions</h3>
+<p>Rules cascade from general to specific: a clinic-wide rule, then a rule for one doctor, then a rule for one service. The most specific rule wins.</p>
+
+<table>
+  <tr><th>Calculation</th><th>Meaning</th></tr>
+  <tr><td>Percent of net</td><td>Percentage after the line discount</td></tr>
+  <tr><td>Percent of gross</td><td>Percentage before the discount</td></tr>
+  <tr><td>Fixed per case</td><td>A flat amount regardless of price</td></tr>
+  <tr><td>Tiered</td><td>Percentage that changes with the amount</td></tr>
+</table>
+
+<p>Administrative expenses are deducted from the base before the doctor's share is worked out, and minimum and maximum caps apply after. A commission entry is created the moment an invoice is issued and can never be created twice for the same line — the database enforces that, not just the code.</p>
+
+<hr>
+
+<h2 id="reports">Reports</h2>
+<p>Four sections, each behind its own permission, so the accountant and the HR manager never see each other's numbers.</p>
+
+<ul>
+  <li><strong>Financial</strong> — issued vs collected vs outstanding, revenue by day, collections by method, revenue per doctor net of commission, top services, receivables aging</li>
+  <li><strong>Clinical</strong> — visits, completions, new patients, average visit length, visits per doctor, top diagnoses, patient mix</li>
+  <li><strong>Inventory</strong> — stock value, low stock, near-expiry and expired batches, slow-moving capital</li>
+  <li><strong>HR</strong> — attendance, lateness, overtime, last payroll cost</li>
+</ul>
+
+<hr>
+
+<h2 id="templates">Consultation templates</h2>
+<p>A doctor sees the same condition dozens of times a day. A template stores a whole consultation under one name — examination text, diagnosis, prescription with doses, lab and imaging orders — and applies it in one click.</p>
+<p>Two rules govern it:</p>
+<ul>
+<li><strong>Applying adds; it never erases.</strong> A text field is only filled if it is empty, and an existing drug or diagnosis is not duplicated. Applying the same template twice changes nothing the second time.</li>
+<li><strong>Follow-up is stored as a number of days, not a date.</strong> A template used months later would otherwise carry a date in the past, which validation rejects.</li>
+</ul>
+<p>A template with no doctor is <em>shared</em> with every doctor in the branch; a template with a doctor is <em>personal</em> and invisible to others. Publishing a shared template needs the separate <code>templates.share</code> permission, which the Doctor role does not have — if a doctor ticks the box, the template is saved as personal.</p>
+<p>The list orders itself by usage, so the three templates a clinic really uses rise to the top on their own.</p>
+
+<hr>
+
+<h2 id="dictation">Voice dictation</h2>
+<p>A microphone button sits next to every long clinical field — examination, diagnosis, plan, notes, and the radiology report. Hold a conversation with the patient, dictate the note, keep your hands free.</p>
+
+<div class="ok">
+  <strong>The audio never leaves the machine.</strong> Recognition runs inside the browser (the Web Speech API). There is no server, no API key and no monthly cost. It works in Chrome and Edge; other browsers simply do not show the button.
+</div>
+
+<p>Arabic medical recognition is imperfect, so the system ships a correction dictionary that rewrites what the engine heard before it reaches the field:</p>
+
+<ul>
+  <li><strong>Punctuation by voice</strong> — saying "نقطة" inserts a full stop, "سطر جديد" a new line.</li>
+  <li><strong>Patterns</strong> — "مية وعشرين على تمانين" becomes <code>120/80</code>, "تلاتين درجة" becomes <code>30°</code>.</li>
+  <li><strong>Terms</strong> — around thirty-five medical terms and drug names that engines habitually mishear.</li>
+</ul>
+
+<p><strong>Setup → Voice dictionary</strong> lets the clinic add its own corrections — the drug names and doctors' habits that no shipped list could predict. Rules are applied longest-first, so "فاصلة منقوطة" is never mistaken for "فاصلة".</p>
+
+<p>Only text the engine marks as <em>final</em> is written, so interim guesses never flicker into the record, and the engine restarts itself when it drops out mid-sentence.</p>
+
+<hr>
+
+<h2 id="ticket">Patient queue link</h2>
+<p>Every queue token carries a random link. Open the queue board, click the scan icon next to a token, and a QR code appears. The patient scans it and follows their turn from their own phone — they can wait in the car and come back on time instead of standing in the hall.</p>
+<p>The page shows their number, how many are ahead, an estimate in minutes computed from today's actual average, and which number is being served. When they are called, it turns green and names the room. It refreshes itself every fifteen seconds.</p>
+<p>The link is valid for its day only, and it is a random UUID: changing a character in the URL gives a 404, so nobody reaches another patient's ticket. The page shows no other patient's name and no medical data.</p>
+
+<hr>
+
+<h2 id="whatsapp">WhatsApp messages</h2>
+<p>Sending is <strong>off</strong> until you enter your own keys. Until then every message is written to the log so you can see exactly what would have been sent — the system never messages a real number from demo data.</p>
+<p>To switch it on: <em>Settings → WhatsApp</em>, tick <em>enabled</em>, then enter the <code>phone_number_id</code> and <code>access_token</code> from your Meta WhatsApp Cloud API app. Local numbers such as <code>01001234567</code> are converted to international format before sending.</p>
+<table>
+<thead><tr><th>Event</th><th>When it is sent</th></tr></thead>
+<tbody>
+<tr><td>Appointment confirmed</td><td>The moment a booking is saved</td></tr>
+<tr><td>Appointment reminder</td><td>Scheduled task, the evening before</td></tr>
+<tr><td>Queue ticket link</td><td>On check-in — the most useful message of the day</td></tr>
+<tr><td>Your turn</td><td>When the patient is called</td></tr>
+<tr><td>Result ready</td><td>When a verified lab result is delivered</td></tr>
+<tr><td>Invoice issued</td><td>Off by default</td></tr>
+</tbody>
+</table>
+<p>Each event has its own switch in the settings, and the message texts are editable templates — Arabic and English — so you can rewrite them in the clinic's own voice.</p>
+<p><strong>A failed message never breaks the operation.</strong> If the provider is down, the appointment is still booked and the failure is recorded in <em>Message log</em> with its reason and a retry button.</p>
+
+<hr>
+
+<h2 id="audit">Who changed what</h2>
+<p><em>Settings → Who changed what</em> records every change to sensitive records: patients, visits, invoices, payments, refunds, cash sessions, expenses, items, settings, users, employees, payslips and insurance claims.</p>
+<p>Each row names the user, the action, the record, and the change itself as <em>old → new</em> — because the new value alone tells you nothing. Only changed fields are recorded, and a save that changed nothing is not recorded at all, so the log stays readable.</p>
+<p>Filter by record type, user, action, and date range.</p>
+
+<hr>
+
+<h2 id="backup">Backups</h2>
+<p><em>Settings → Backups</em> creates one zip holding the database and, optionally, the uploaded files. It does not use <code>mysqldump</code>: many shared hosts block external commands, and a backup that fails on your host is worthless. The export reads the tables through PDO and writes the SQL itself.</p>
+<p>Queue, session and cache tables are deliberately excluded — restoring them would revive dead sessions and failed jobs.</p>
+<p>A nightly backup runs automatically at 02:30 (database only, since file backups grow without limit), and copies older than the number of days set in the settings are removed.</p>
+<p>To restore: create an empty database, import <code>database_*.sql</code> from inside the zip, copy the <code>files</code> folder into <code>storage/app/public</code>, then update <code>.env</code>.</p>
+
+<hr>
+
+<h2 id="cron">Scheduled tasks</h2>
+<p>Four things need the scheduler: appointment reminders, marking missed appointments as no-shows, the nightly backup, and sending queued e-invoices. Add one line to your host's cron panel:</p>
+
+<pre><code>* * * * * cd /path/to/app &amp;&amp; php artisan schedule:run &gt;&gt; /dev/null 2&gt;&amp;1</code></pre>
+
+<p>Without it the system still works — those run only when you trigger them by hand:</p>
+
+<pre><code>php artisan messages:remind
+php artisan appointments:sweep-no-shows
+php artisan backup:run
+php artisan einvoice:submit</code></pre>
+
+<div class="note">
+  If you use e-invoicing, the scheduler is not optional. Invoices are queued at the moment they are issued and sent every fifteen minutes; with nothing draining the queue they stay pending forever.
+</div>
+
+<hr>
+
+<h2 id="accounting">Double-entry accounting</h2>
+<p><strong>Off by default.</strong> Turn it on in <strong>Settings → Accounting</strong> when you are ready. Until then nothing posts — deliberately, so a missing ledger account can never block the front desk from issuing an invoice.</p>
+
+<h3>Chart of accounts</h3>
+<p>Fifty-five accounts ship configured — 1xxx assets, 2xxx liabilities, 3xxx equity, 4xxx revenue, 5xxx expenses. Rename them freely; the system finds them by an internal key, not by name, so renaming never breaks posting. Add your own under any parent.</p>
+
+<h3>What posts automatically</h3>
+<p>Once enabled, fourteen events post on their own: invoice issued, cost of goods, payment received and allocated, refund, expense paid, other income, purchase received, supplier paid, payslip approved and paid, commission accrued, insurance payment received, and cash session closed.</p>
+
+<p>A few of those decisions are worth knowing, because accountants differ on them:</p>
+
+<ul>
+  <li>A <strong>discount is an expense</strong>, not reduced revenue — so you can see what discounting actually costs you.</li>
+  <li>A <strong>patient advance is a liability</strong> until there is an invoice to set it against.</li>
+  <li>An <strong>insurance deduction is its own expense line</strong>, not a quiet reduction of the claim.</li>
+  <li><strong>Payroll deductions are liabilities</strong> (you owe them to someone), not reduced salary expense.</li>
+  <li><strong>Commission accrues when it is earned</strong>, at invoice time — not when it is eventually paid.</li>
+</ul>
+
+<h3>Turning it on later</h3>
+<p>If you run the clinic for months and then enable accounting, your history is not lost:</p>
+
+<pre><code>php artisan accounting:repost --from=2026-01-01 --dry-run
+php artisan accounting:repost --from=2026-01-01</code></pre>
+
+<p>It is idempotent — running it twice does not double anything. Always run <code>--dry-run</code> first to see what it will post.</p>
+
+<h3>Reports and closing</h3>
+<p>Trial balance, income statement, balance sheet and account statement. The balance sheet includes the current period's result in equity, so it balances before you have closed the year.</p>
+
+<div class="note">
+  <strong>A posted entry is never edited.</strong> Corrections are made by reversing it, which creates a mirrored entry dated today and links the two. Editing history is how books stop being trustworthy.
+  <br><br>
+  Closing a fiscal period is refused while it is out of balance, and closing is a manager's decision, not the bookkeeper's — <code>accounting.periods.manage</code> is a separate permission from writing entries. Each branch closes its own periods independently.
+</div>
+
+<hr>
+
+<h2 id="einvoice">E-invoicing (ZATCA / ETA)</h2>
+<p>Support for the Saudi authority (ZATCA) and the Egyptian one (ETA). Enable it in <strong>Settings → E-invoicing</strong> and choose your provider.</p>
+
+<p>Every issued invoice is queued, sent within fifteen minutes, and tracked on <strong>Accounting → E-invoices</strong> with rejected and pending ones listed first. Rejections carry the authority's reason; fix the cause, then <em>Requeue</em>.</p>
+
+<table>
+  <tr><th>Status</th><th>Meaning</th></tr>
+  <tr><td>Pending</td><td>Queued, not sent yet.</td></tr>
+  <tr><td>Accepted</td><td>Cleared by the authority.</td></tr>
+  <tr><td>Rejected</td><td>The authority refused the data. Not retried automatically — fix and requeue.</td></tr>
+  <tr><td>Failed</td><td>A network or server problem on their side. Retried on its own.</td></tr>
+</table>
+
+<p>The QR code required on Saudi invoices is generated and printed regardless of whether transmission has succeeded, since an invoice may be printed before it clears.</p>
+
+<div class="note">
+  <strong>Digital signing needs a certificate issued in your establishment's name, which cannot ship inside a product.</strong>
+  <ul>
+    <li><strong>ZATCA</strong> — a CSID certificate, issued to your establishment after you register with the authority.</li>
+    <li><strong>ETA</strong> — signing via a USB token or an HSM.</li>
+  </ul>
+  The fields are waiting in Settings. Until they are filled the document is still built in full and the QR is still produced — the authority simply rejects it with a clear message rather than failing silently.
+  <br><br>
+  Issuing an invoice <em>never</em> fails because of e-invoicing. The patient is standing at the desk; the invoice is issued, the reporting is queued.
+</div>
+
+<hr>
+<h2 id="rules">Built-in safeguards</h2>
+<p>These are enforced by the system, not by policy documents. They are worth knowing because they explain why the software sometimes says no.</p>
+
+<table>
+  <tr><th>Rule</th><th>Why</th></tr>
+  <tr><td>Reception cannot open the clinical record</td><td>Complaint, examination and diagnosis are private to the care team</td></tr>
+  <tr><td>A visit cannot be completed without a diagnosis</td><td>A medical record without one has no meaning</td></tr>
+  <tr><td>No cash collection without an open session</td><td>Otherwise no one owns the shortage at count time</td></tr>
+  <tr><td>An issued invoice cannot be edited</td><td>It is a financial document; it is cancelled with a written reason instead</td></tr>
+  <tr><td>An invoice with a payment cannot be cancelled</td><td>Refund first, or debt vanishes while cash stays in the drawer</td></tr>
+  <tr><td>Whoever requests a refund does not approve it</td><td>Separate permissions for requesting and approving</td></tr>
+  <tr><td>Nobody audits their own cash session</td><td>An audit by the person being audited is not an audit</td></tr>
+  <tr><td>Expired medicine is never dispensed</td><td>Excluded from FEFO entirely; written off through an adjustment</td></tr>
+  <tr><td>Negative stock is refused by default</td><td>Otherwise stock-taking can never balance and losses stay hidden</td></tr>
+  <tr><td>Whoever enters a lab result does not verify it</td><td>Verification is what turns a number into a finding</td></tr>
+  <tr><td>A final radiology report is amended, never replaced</td><td>The treating doctor may have acted on the first version</td></tr>
+  <tr><td>Controlled drugs need a prescription</td><td>Configurable, but the default is to refuse</td></tr>
+  <tr><td>A paid payroll period cannot be re-run</td><td>Those figures were received by employees</td></tr>
+</table>
+
+<hr>
+
+<h2 id="numbering">Document numbering</h2>
+<p>Each document type has its own counter per branch, configurable in prefix, padding, year/month inclusion and reset period. Numbers are drawn inside a locked transaction, so two users pressing save at the same instant can never receive the same number.</p>
+
+<table>
+  <tr><th>Document</th><th>Example</th></tr>
+  <tr><td>Medical record</td><td><code>MRN-000145</code></td></tr>
+  <tr><td>Visit</td><td><code>V-2026-000145</code></td></tr>
+  <tr><td>Invoice</td><td><code>INV-2026-000145</code></td></tr>
+  <tr><td>Receipt</td><td><code>PAY-2026-000145</code></td></tr>
+  <tr><td>Lab order</td><td><code>LAB-2026-000145</code></td></tr>
+  <tr><td>Payslip</td><td><code>PS-2026-09-000145</code></td></tr>
+</table>
+
+<div class="note">
+A draft invoice holds no number at all — it is drawn at the moment of issue. This keeps the tax-visible sequence free of gaps left by drafts that were never issued.
+</div>
+
+<hr>
+
+<h2 id="display">Waiting-room display</h2>
+<p>Create a display record and open its URL on the waiting-room TV. No login is needed; the random token in the URL is the key, and the branch is fixed by the display itself so it can never show another branch's tokens.</p>
+
+<pre><code>App\Models\QueueDisplay::create([
+    'branch_id'       => 1,
+    'name'            => 'Main waiting hall',
+    'clinic_ids'      => [1, 2, 3],   // empty = every clinic
+    'ticker_text'     => ['en' => 'We wish you good health'],
+    'refresh_seconds' => 5,
+    'is_active'       => true,
+]);</code></pre>
+
+<hr>
+
+<h2 id="troubleshooting">Troubleshooting</h2>
+
+<h3>Blank white page after installing</h3>
+<p>Almost always a permissions problem. Run <code>chmod -R 775 storage bootstrap/cache</code> and check <code>storage/logs/laravel.log</code>.</p>
+
+<h3>"404 Not Found" on every page except the homepage</h3>
+<p><code>mod_rewrite</code> is disabled, or Apache is ignoring <code>.htaccess</code>. Enable <code>mod_rewrite</code> and set <code>AllowOverride All</code> on the directory.</p>
+
+<h3>The installer says the database is not empty</h3>
+<p>It found existing users. Either point it at a fresh database or drop the tables — this guard exists so a re-upload can never wipe live records.</p>
+
+<h3>Arabic text shows as question marks</h3>
+<p>The database is not <code>utf8mb4</code>. Convert it:</p>
+<pre><code>ALTER DATABASE your_db CHARACTER SET utf8mb4 COLLATE utf8mb4_unicode_ci;</code></pre>
+
+<h3>Changes to settings are not taking effect</h3>
+<p>Run <code>php artisan optimize:clear</code>. Settings and translations are cached for speed.</p>
+
+<h3>Cash collection is refused</h3>
+<p>The user has no open cash session. Open one from <strong>Cash sessions</strong>. This is intentional, not a bug.</p>
+
+<hr>
+
+<h2 id="support">Support</h2>
+<p>Support covers installation help, bug fixes and questions about how the system works. It does not cover custom development, server administration or third-party integrations.</p>
+
+<p>When reporting a problem, please include:</p>
+<ul>
+  <li>Your PHP and MySQL versions</li>
+  <li>The exact steps that reproduce it</li>
+  <li>The relevant lines from <code>storage/logs/laravel.log</code></li>
+</ul>
+
+<p style="color: var(--muted); margin-top: 40px; font-size: 13px;">
+Medical ERP 1.0 — built on Laravel 12, Livewire 4 and Tailwind CSS 4.
+</p>
+
+</main>
+</div>
+</body>
+</html>
