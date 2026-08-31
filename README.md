@@ -1,3 +1,5 @@
-##link of docs
+### link of docs
 
-https://ahmedibrahim1998.github.io/Medical-ERP-Docs/
+
+
+[Docs]([https://your-link.com](https://ahmedibrahim1998.github.io/Medical-ERP-Docs/))
